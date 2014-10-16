@@ -1,6 +1,6 @@
 /*!
  * boxgrid - jQuery Plugin
- * Version: 1.0.0
+ * Version: 1.0.1
  *
  * Copyright (c) 2014 Heimspiel GmbH, http://www.hmspl.de/
  * 
@@ -27,6 +27,18 @@
 
 (function ($) {
     "use strict";
+
+    function debouncer(func, timeout) {
+        var timeoutID;
+        return function () {
+            var scope = this,
+                args = arguments;
+            clearTimeout(timeoutID);
+            timeoutID = setTimeout(function () {
+                func.apply(scope, Array.prototype.slice.call(args));
+            }, timeout);
+        };
+    }
 
     function hasEmptySpan(grid, columns, x, y, colSpan, rowSpan) {
         var r = 0,
@@ -59,11 +71,20 @@
     }
 
     $.fn.boxgrid = function (options) {
-        var settings = $.extend({
-            minColumns: 2,
-            minWidth: 100,
-            rowHeight: 100
-        }, options);
+        var el = this,
+            settings = $.extend({
+                minColumns: 2,
+                minWidth: 100,
+                rowHeight: 100,
+                resize: true,
+                resizeDelay: 200
+            }, options);
+
+        if (settings.resize) {
+            $(window).resize(debouncer(function () {
+                el.boxgrid(options);
+            }, settings.resizeDelay));
+        }
 
         return this.each(function () {
             var container = $(this),
