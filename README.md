@@ -1,2 +1,2 @@
-boxgrid
+boxgrid - jQuery Plugin
 =======
