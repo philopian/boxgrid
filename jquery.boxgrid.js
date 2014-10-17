@@ -24,9 +24,16 @@
  */
 
 /*jslint browser: true */
-/*global jQuery*/
+/*global define*/
 
-(function ($) {
+(function (root, factory) {
+    'use strict';
+    if (typeof define === 'function' && define.amd) {
+        define(['jquery'], factory);
+    } else {
+        factory(root.jQuery);
+    }
+}(this, function ($) {
     'use strict';
 
     function debounce(func, delay) {
@@ -142,4 +149,4 @@
         return this;
     };
 
-}(jQuery));
+}));
