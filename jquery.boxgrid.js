@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+/*jslint browser: true */
 /*global jQuery*/
 
 (function ($) {
