@@ -71,6 +71,50 @@
         }
     }
 
+    function alignContainer(container, settings) {
+        var grid = [],
+            width = container.width(),
+            columns = Math.max(settings.minColumns, Math.floor(width / settings.minWidth)),
+            colWidth = Math.max(settings.minWidth, width / columns),
+            rows = 0;
+
+        container.children().each(function () {
+            var box = $(this),
+                colSpan = box.data(settings.dataColSpanName),
+                rowSpan = box.data(settings.dataRowSpanName),
+                i = 0,
+                x = 0,
+                y = 0;
+
+            if (colSpan > columns) {
+                return;
+            }
+
+            box.width(colWidth * colSpan);
+            box.height(settings.rowHeight * rowSpan);
+
+            for (i = 0; true; i += 1) {
+                x = i % columns;
+                y = Math.floor(i / columns);
+
+                if (hasEmptySpan(grid, columns, x, y, colSpan, rowSpan)) {
+                    setSpan(grid, columns, x, y, colSpan, rowSpan);
+
+                    box.css({
+                        top: y * settings.rowHeight,
+                        left: x * colWidth,
+                        position: 'absolute'
+                    });
+
+                    break;
+                }
+            }
+        });
+
+        rows = Math.ceil(grid.length / columns);
+        container.height(rows * settings.rowHeight).addClass(settings.readyClass);
+    }
+
     $.fn.boxgrid = function (options) {
         var el = this,
             settings = $.extend({
@@ -82,58 +126,20 @@
                 readyClass: 'boxgrid-ready',
                 dataColSpanName: 'colspan',
                 dataRowSpanName: 'rowspan'
-            }, options);
+            }, options),
+            align = function () {
+                el.each(function () {
+                    alignContainer($(this), settings);
+                });
+            };
 
         if (settings.resize) {
-            $(window).resize(debounce(function () {
-                el.boxgrid(options);
-            }, settings.resizeDelay));
+            $(window).resize(debounce(align, settings.resizeDelay));
         }
 
-        return this.each(function () {
-            var container = $(this),
-                grid = [],
-                width = container.width(),
-                columns = Math.max(settings.minColumns, Math.floor(width / settings.minWidth)),
-                colWidth = Math.max(settings.minWidth, width / columns),
-                rows = 0;
+        $(document).ready(align);
 
-            container.children().each(function () {
-                var box = $(this),
-                    colSpan = box.data(settings.dataColSpanName),
-                    rowSpan = box.data(settings.dataRowSpanName),
-                    i = 0,
-                    x = 0,
-                    y = 0;
-
-                if (colSpan > columns) {
-                    return;
-                }
-
-                box.width(colWidth * colSpan);
-                box.height(settings.rowHeight * rowSpan);
-
-                for (i = 0; true; i += 1) {
-                    x = i % columns;
-                    y = Math.floor(i / columns);
-
-                    if (hasEmptySpan(grid, columns, x, y, colSpan, rowSpan)) {
-                        setSpan(grid, columns, x, y, colSpan, rowSpan);
-
-                        box.css({
-                            top: y * settings.rowHeight,
-                            left: x * colWidth,
-                            position: 'absolute'
-                        });
-
-                        break;
-                    }
-                }
-            });
-
-            rows = Math.ceil(grid.length / columns);
-            container.height(rows * settings.rowHeight).addClass(settings.readyClass);
-        });
+        return this;
     };
 
 }(jQuery));
