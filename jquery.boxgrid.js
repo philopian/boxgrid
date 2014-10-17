@@ -122,7 +122,7 @@
                 minWidth: 100,
                 rowHeight: 100,
                 resize: true,
-                resizeDelay: 200,
+                resizeDelay: 250,
                 readyClass: 'boxgrid-ready',
                 dataColSpanName: 'colspan',
                 dataRowSpanName: 'rowspan'
