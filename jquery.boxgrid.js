@@ -27,7 +27,7 @@
 /*global jQuery*/
 
 (function ($) {
-    "use strict";
+    'use strict';
 
     function debouncer(func, timeout) {
         var timeoutID;
@@ -97,8 +97,8 @@
 
             container.children().each(function () {
                 var box = $(this),
-                    colSpan = box.data("colspan"),
-                    rowSpan = box.data("rowspan"),
+                    colSpan = box.data('colspan'),
+                    rowSpan = box.data('rowspan'),
                     i = 0,
                     x = 0,
                     y = 0;
@@ -120,7 +120,7 @@
                         box.css({
                             top: y * settings.rowHeight,
                             left: x * colWidth,
-                            position: "absolute"
+                            position: 'absolute'
                         });
 
                         break;
@@ -129,7 +129,7 @@
             });
 
             rows = Math.ceil(grid.length / columns);
-            container.height(rows * settings.rowHeight).addClass("boxgrid-ready");
+            container.height(rows * settings.rowHeight).addClass('boxgrid-ready');
         });
     };
 
