@@ -29,15 +29,15 @@
 (function ($) {
     'use strict';
 
-    function debouncer(func, timeout) {
+    function debounce(func, delay) {
         var timeoutID;
         return function () {
             var scope = this,
                 args = arguments;
             clearTimeout(timeoutID);
             timeoutID = setTimeout(function () {
-                func.apply(scope, Array.prototype.slice.call(args));
-            }, timeout);
+                func.apply(scope, args);
+            }, delay);
         };
     }
 
@@ -85,7 +85,7 @@
             }, options);
 
         if (settings.resize) {
-            $(window).resize(debouncer(function () {
+            $(window).resize(debounce(function () {
                 el.boxgrid(options);
             }, settings.resizeDelay));
         }
