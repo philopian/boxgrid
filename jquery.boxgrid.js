@@ -78,7 +78,10 @@
                 minWidth: 100,
                 rowHeight: 100,
                 resize: true,
-                resizeDelay: 200
+                resizeDelay: 200,
+                readyClass: 'boxgrid-ready',
+                dataColSpanName: 'colspan',
+                dataRowSpanName: 'rowspan'
             }, options);
 
         if (settings.resize) {
@@ -97,8 +100,8 @@
 
             container.children().each(function () {
                 var box = $(this),
-                    colSpan = box.data('colspan'),
-                    rowSpan = box.data('rowspan'),
+                    colSpan = box.data(settings.dataColSpanName),
+                    rowSpan = box.data(settings.dataRowSpanName),
                     i = 0,
                     x = 0,
                     y = 0;
@@ -129,7 +132,7 @@
             });
 
             rows = Math.ceil(grid.length / columns);
-            container.height(rows * settings.rowHeight).addClass('boxgrid-ready');
+            container.height(rows * settings.rowHeight).addClass(settings.readyClass);
         });
     };
 
