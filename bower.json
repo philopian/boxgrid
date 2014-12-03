@@ -1,12 +1,11 @@
 {
   "name": "boxgrid",
-  "version": "1.0.2",
   "homepage": "https://github.com/hmspl/boxgrid",
   "authors": [
     "Danilo Bürger <danilo.buerger@hmspl.de> (http://www.hmspl.de/)"
   ],
   "description": "boxgrid - jQuery Plugin",
-  "main": "jquery.boxgrid.js",
+  "main": "dist/jquery.boxgrid.min.js",
   "keywords": [
     "jQuery",
     "grid",
