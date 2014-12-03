@@ -83,6 +83,7 @@
             width = $container.width(),
             columns = settings.minColumns,
             colWidth = 0,
+            rowHeight = settings.rowHeight,
             rows = 0;
 
         if (settings.minColWidth > 0) {
@@ -91,6 +92,10 @@
         columns = Math.min(columns, settings.maxColumns);
 
         colWidth = Math.max(settings.minColWidth, width / columns);
+
+        if (settings.rowHeight === 0) {
+            rowHeight = colWidth;
+        }
 
         $container.children().each(function () {
             var $box = $(this),
@@ -104,8 +109,12 @@
                 colSpan = columns;
             }
 
+            if (settings.rowHeight === 0) {
+                rowSpan = colSpan * rowSpan / 100;
+            }
+
             $box.width(colWidth * colSpan);
-            $box.height(settings.rowHeight * rowSpan);
+            $box.height(rowHeight * rowSpan);
 
             for (i = 0; true; i += 1) {
                 x = i % columns;
@@ -115,7 +124,7 @@
                     setSpan(grid, columns, x, y, colSpan, rowSpan);
 
                     $box.css({
-                        top: y * settings.rowHeight,
+                        top: y * rowHeight,
                         left: x * colWidth,
                         position: 'absolute'
                     });
@@ -126,7 +135,7 @@
         });
 
         rows = Math.ceil(grid.length / columns);
-        $container.height(rows * settings.rowHeight).addClass(settings.readyClass);
+        $container.height(rows * rowHeight).addClass(settings.readyClass);
     }
 
     $.fn.boxgrid = function (options) {
