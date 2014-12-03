@@ -144,7 +144,7 @@
                 minColumns: 1,
                 maxColumns: Infinity,
                 minColWidth: 0,
-                rowHeight: 100,
+                rowHeight: 0,
                 resize: true,
                 resizeDelay: 250,
                 readyClass: 'boxgrid-ready',
