@@ -114,7 +114,7 @@
             }
 
             if (settings.rowHeight === 0) {
-                rowSpan = colSpan * rowSpan / 100;
+                rowSpan = Math.ceil(colSpan * rowSpan / 100);
             }
 
             if (typeof settings.adjustRowSpan === 'function') {
