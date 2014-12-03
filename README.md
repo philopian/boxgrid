@@ -1,4 +1,4 @@
 boxgrid - jQuery Plugin
 =======
 
-Usage Example: http://jsfiddle.net/danilobuerger/v6bb8kxw/
+Usage Example: http://hmspl.github.io/boxgrid/
