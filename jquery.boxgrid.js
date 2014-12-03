@@ -132,7 +132,7 @@
     $.fn.boxgrid = function (options) {
         var el = this,
             settings = $.extend({
-                minColumns: 2,
+                minColumns: 1,
                 maxColumns: Infinity,
                 minWidth: 0,
                 rowHeight: 100,
