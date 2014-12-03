@@ -109,8 +109,16 @@
                 colSpan = columns;
             }
 
+            if (typeof settings.adjustColSpan === 'function') {
+                colSpan = settings.adjustColSpan.call(this, colSpan, columns);
+            }
+
             if (settings.rowHeight === 0) {
                 rowSpan = colSpan * rowSpan / 100;
+            }
+
+            if (typeof settings.adjustRowSpan === 'function') {
+                rowSpan = settings.adjustRowSpan.call(this, rowSpan, columns);
             }
 
             $box.width(colWidth * colSpan);
