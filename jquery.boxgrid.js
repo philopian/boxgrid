@@ -85,12 +85,12 @@
             colWidth = 0,
             rows = 0;
 
-        if (settings.minWidth > 0) {
-            columns = Math.max(columns, Math.floor(width / settings.minWidth));
+        if (settings.minColWidth > 0) {
+            columns = Math.max(columns, Math.floor(width / settings.minColWidth));
         }
         columns = Math.min(columns, settings.maxColumns);
 
-        colWidth = Math.max(settings.minWidth, width / columns);
+        colWidth = Math.max(settings.minColWidth, width / columns);
 
         container.children().each(function () {
             var $box = $(this),
@@ -101,7 +101,7 @@
                 y = 0;
 
             if (colSpan > columns) {
-                return;
+                colSpan = columns;
             }
 
             $box.width(colWidth * colSpan);
@@ -134,7 +134,7 @@
             settings = $.extend({
                 minColumns: 1,
                 maxColumns: Infinity,
-                minWidth: 0,
+                minColWidth: 0,
                 rowHeight: 100,
                 resize: true,
                 resizeDelay: 250,
