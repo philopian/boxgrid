@@ -78,9 +78,9 @@
         }
     }
 
-    function alignContainer(container, settings) {
+    function alignContainer($container, settings) {
         var grid = [],
-            width = container.width(),
+            width = $container.width(),
             columns = settings.minColumns,
             colWidth = 0,
             rows = 0;
@@ -92,7 +92,7 @@
 
         colWidth = Math.max(settings.minColWidth, width / columns);
 
-        container.children().each(function () {
+        $container.children().each(function () {
             var $box = $(this),
                 colSpan = $box.data(settings.dataColSpanName),
                 rowSpan = $box.data(settings.dataRowSpanName),
@@ -126,7 +126,7 @@
         });
 
         rows = Math.ceil(grid.length / columns);
-        container.height(rows * settings.rowHeight).addClass(settings.readyClass);
+        $container.height(rows * settings.rowHeight).addClass(settings.readyClass);
     }
 
     $.fn.boxgrid = function (options) {
