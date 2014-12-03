@@ -81,9 +81,15 @@
     function alignContainer(container, settings) {
         var grid = [],
             width = container.width(),
-            columns = Math.max(settings.minColumns, Math.floor(width / settings.minWidth)),
-            colWidth = Math.max(settings.minWidth, width / columns),
+            columns = settings.minColumns,
+            colWidth = 0,
             rows = 0;
+
+        if (settings.minWidth > 0) {
+            columns = Math.max(columns, Math.floor(width / settings.minWidth));
+        }
+
+        colWidth = Math.max(settings.minWidth, width / columns);
 
         container.children().each(function () {
             var $box = $(this),
