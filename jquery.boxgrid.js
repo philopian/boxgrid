@@ -132,7 +132,7 @@
         var el = this,
             settings = $.extend({
                 minColumns: 2,
-                minWidth: 100,
+                minWidth: 0,
                 rowHeight: 100,
                 resize: true,
                 resizeDelay: 250,
