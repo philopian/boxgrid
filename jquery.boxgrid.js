@@ -88,6 +88,7 @@
         if (settings.minWidth > 0) {
             columns = Math.max(columns, Math.floor(width / settings.minWidth));
         }
+        columns = Math.min(columns, settings.maxColumns);
 
         colWidth = Math.max(settings.minWidth, width / columns);
 
@@ -132,6 +133,7 @@
         var el = this,
             settings = $.extend({
                 minColumns: 2,
+                maxColumns: Infinity,
                 minWidth: 0,
                 rowHeight: 100,
                 resize: true,
