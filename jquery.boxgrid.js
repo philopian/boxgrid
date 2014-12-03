@@ -144,13 +144,13 @@
             }, options),
             align = function () {
                 if (typeof settings.beforeResize === 'function') {
-                    settings.beforeResize.call(this);
+                    settings.beforeResize.call(el);
                 }
                 el.each(function () {
                     alignContainer($(this), settings);
                 });
                 if (typeof settings.afterResize === 'function') {
-                    settings.afterResize.call(this);
+                    settings.afterResize.call(el);
                 }
             };
 
