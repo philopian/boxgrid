@@ -1,0 +1,26 @@
+{
+  "name": "boxgrid",
+  "version": "1.0.3",
+  "description": "boxgrid - jQuery Plugin",
+  "main": "dist/jquery.boxgrid.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hmspl/boxgrid.git"
+  },
+  "author": {
+    "name": "Danilo Bürger",
+    "email": "danilo.buerger@hmspl.de",
+    "url": "http://www.hmspl.de/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hmspl/boxgrid/issues"
+  },
+  "homepage": "https://github.com/hmspl/boxgrid",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-jslint": "^1.1.12"
+  }
+}
