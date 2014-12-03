@@ -86,9 +86,9 @@
             rows = 0;
 
         container.children().each(function () {
-            var box = $(this),
-                colSpan = box.data(settings.dataColSpanName),
-                rowSpan = box.data(settings.dataRowSpanName),
+            var $box = $(this),
+                colSpan = $box.data(settings.dataColSpanName),
+                rowSpan = $box.data(settings.dataRowSpanName),
                 i = 0,
                 x = 0,
                 y = 0;
@@ -97,8 +97,8 @@
                 return;
             }
 
-            box.width(colWidth * colSpan);
-            box.height(settings.rowHeight * rowSpan);
+            $box.width(colWidth * colSpan);
+            $box.height(settings.rowHeight * rowSpan);
 
             for (i = 0; true; i += 1) {
                 x = i % columns;
@@ -107,7 +107,7 @@
                 if (hasEmptySpan(grid, columns, x, y, colSpan, rowSpan)) {
                     setSpan(grid, columns, x, y, colSpan, rowSpan);
 
-                    box.css({
+                    $box.css({
                         top: y * settings.rowHeight,
                         left: x * colWidth,
                         position: 'absolute'
