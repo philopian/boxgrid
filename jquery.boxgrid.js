@@ -101,6 +101,8 @@
             var $box = $(this),
                 colSpan = $box.data(settings.dataColSpanName),
                 rowSpan = $box.data(settings.dataRowSpanName),
+                minHeight = $box.data(settings.dataMinHeightName),
+                $minHeightEl,
                 i = 0,
                 x = 0,
                 y = 0;
@@ -115,6 +117,13 @@
 
             if (settings.rowHeight === 0) {
                 rowSpan = Math.ceil(colSpan * rowSpan / 100);
+            }
+
+            if (minHeight !== 'undefined') {
+                $minHeightEl = $box.find(minHeight);
+                if ($minHeightEl.length) {
+                    rowSpan = Math.max(rowSpan, Math.ceil($minHeightEl.height() / rowHeight));
+                }
             }
 
             if (typeof settings.adjustRowSpan === 'function') {
@@ -157,7 +166,8 @@
                 resizeDelay: 250,
                 readyClass: 'boxgrid-ready',
                 dataColSpanName: 'colspan',
-                dataRowSpanName: 'rowspan'
+                dataRowSpanName: 'rowspan',
+                dataMinHeightName: 'minHeight'
             }, options),
             align = function () {
                 if (typeof settings.beforeResize === 'function') {
