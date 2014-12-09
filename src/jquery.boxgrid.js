@@ -126,8 +126,8 @@
                 rowSpan = settings.adjustRowSpan.call(this, rowSpan, columns);
             }
 
-            $box.width(colWidth * colSpan);
-            $box.height(rowHeight * rowSpan);
+            $box.width(Math.floor(colWidth * colSpan));
+            $box.height(Math.floor(rowHeight * rowSpan));
 
             for (i = 0; true; i += 1) {
                 x = i % columns;
@@ -137,8 +137,8 @@
                     setSpan(grid, columns, x, y, colSpan, rowSpan);
 
                     $box.css({
-                        top: y * rowHeight,
-                        left: x * colWidth,
+                        top: Math.floor(y * rowHeight),
+                        left: Math.floor(x * colWidth),
                         position: 'absolute'
                     });
 
