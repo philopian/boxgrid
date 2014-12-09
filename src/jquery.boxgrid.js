@@ -3,17 +3,17 @@
  * Version: 1.0.4
  *
  * Copyright (c) 2014 Heimspiel GmbH, http://www.hmspl.de/
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -78,24 +78,33 @@
         }
     }
 
+    function getColumns(minColumns, minColWidth, maxColumns, width) {
+        var columns = minColumns;
+        if (minColWidth > 0) {
+            columns = Math.max(columns, Math.floor(width / minColWidth));
+        }
+        return Math.min(columns, maxColumns);
+    }
+
+    function getColWidth(minColWidth, width, columns) {
+        return Math.max(minColWidth, Math.floor(width / columns));
+    }
+
+    function getRowHeight(rowHeight, colWidth) {
+        if (rowHeight === 0) {
+            return colWidth;
+        }
+
+        return rowHeight;
+    }
+
     function alignContainer($container, settings) {
         var grid = [],
             width = $container.width(),
-            columns = settings.minColumns,
-            colWidth = 0,
-            rowHeight = settings.rowHeight,
+            columns = getColumns(settings.minColumns, settings.minColWidth, settings.maxColumns, width),
+            colWidth = getColWidth(settings.minColWidth, width, columns),
+            rowHeight = getRowHeight(settings.rowHeight, colWidth),
             rows = 0;
-
-        if (settings.minColWidth > 0) {
-            columns = Math.max(columns, Math.floor(width / settings.minColWidth));
-        }
-        columns = Math.min(columns, settings.maxColumns);
-
-        colWidth = Math.max(settings.minColWidth, width / columns);
-
-        if (settings.rowHeight === 0) {
-            rowHeight = colWidth;
-        }
 
         $container.children().each(function () {
             var $box = $(this),
@@ -115,7 +124,7 @@
                 colSpan = settings.adjustColSpan.call(this, colSpan, columns);
             }
 
-            if (minHeight !== 'undefined') {
+            if (minHeight !== undefined) {
                 $minHeightEl = $box.find(minHeight);
                 if ($minHeightEl.length) {
                     rowSpan = Math.max(rowSpan, Math.ceil($minHeightEl.height() / rowHeight));
