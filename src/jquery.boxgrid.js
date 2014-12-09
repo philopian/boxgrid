@@ -115,10 +115,6 @@
                 colSpan = settings.adjustColSpan.call(this, colSpan, columns);
             }
 
-            if (settings.rowHeight === 0) {
-                rowSpan = Math.ceil(colSpan * rowSpan / 100);
-            }
-
             if (minHeight !== 'undefined') {
                 $minHeightEl = $box.find(minHeight);
                 if ($minHeightEl.length) {
