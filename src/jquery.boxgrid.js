@@ -151,6 +151,18 @@
                 if (hasEmptySpan(grid, columns, x, y, colSpan, rowSpan)) {
                     setSpan(grid, columns, x, y, colSpan, rowSpan);
 
+                    if (x === 0) {
+                        $box.addClass(settings.rowFirstClass);
+                    } else {
+                        $box.removeClass(settings.rowFirstClass);
+                    }
+
+                    if (x + colSpan === columns) {
+                        $box.addClass(settings.rowLastClass);
+                    } else {
+                        $box.removeClass(settings.rowLastClass);
+                    }
+
                     $box.css({
                         top: Math.floor(y * rowHeight),
                         left: offset + Math.floor(x * colWidth),
@@ -177,6 +189,8 @@
                 resize: true,
                 resizeDelay: 250,
                 readyClass: 'boxgrid-ready',
+                rowFirstClass: 'boxgrid-row-first',
+                rowLastClass: 'boxgrid-row-last',
                 dataColSpanName: 'colspan',
                 dataRowSpanName: 'rowspan',
                 dataMinHeightName: 'minHeight'
