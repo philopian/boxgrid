@@ -1,6 +1,6 @@
 /*!
  * boxgrid - jQuery Plugin
- * Version: 1.0.4
+ * Version: 1.0.5
  *
  * Copyright (c) 2014 Heimspiel GmbH, http://www.hmspl.de/
  *
