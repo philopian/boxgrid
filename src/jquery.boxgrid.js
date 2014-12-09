@@ -78,11 +78,12 @@
         }
     }
 
-    function getColumns(minColumns, minColWidth, maxColumns, width) {
+    function getColumns(minColumns, minColSpan, minColWidth, maxColumns, width) {
         var columns = minColumns;
         if (minColWidth > 0) {
             columns = Math.max(columns, Math.floor(width / minColWidth));
         }
+        columns = Math.floor(columns / minColSpan) * minColSpan;
         return Math.min(columns, maxColumns);
     }
 
@@ -98,12 +99,17 @@
         return rowHeight;
     }
 
+    function getOffset(width, columns, colWidth) {
+        return Math.floor((width - columns * colWidth) / 2);
+    }
+
     function alignContainer($container, settings) {
         var grid = [],
             width = $container.width(),
-            columns = getColumns(settings.minColumns, settings.minColWidth, settings.maxColumns, width),
+            columns = getColumns(settings.minColumns, settings.minColSpan, settings.minColWidth, settings.maxColumns, width),
             colWidth = getColWidth(settings.minColWidth, width, columns),
             rowHeight = getRowHeight(settings.rowHeight, colWidth),
+            offset = getOffset(width, columns, colWidth),
             rows = 0;
 
         $container.children().each(function () {
@@ -147,7 +153,7 @@
 
                     $box.css({
                         top: Math.floor(y * rowHeight),
-                        left: Math.floor(x * colWidth),
+                        left: offset + Math.floor(x * colWidth),
                         position: 'absolute'
                     });
 
@@ -163,6 +169,7 @@
     $.fn.boxgrid = function (options) {
         var el = this,
             settings = $.extend({
+                minColSpan: 1,
                 minColumns: 1,
                 maxColumns: Infinity,
                 minColWidth: 0,
