@@ -24,17 +24,25 @@
  */
 
 /*jslint browser: true */
-/*global define*/
 
-(function (root, factory) {
-    'use strict';
-    if (typeof define === 'function' && define.amd) {
-        define(['jquery'], factory);
-    } else {
-        factory(root.jQuery);
-    }
-}(this, function ($) {
-    'use strict';
+(function ($) {
+    "use strict";
+
+    var defaults = {
+        minColSpan: 1,
+        minColumns: 1,
+        maxColumns: Infinity,
+        minColWidth: 0,
+        rowHeight: 0,
+        resize: true,
+        resizeDelay: 250,
+        readyClass: "boxgrid-ready",
+        rowFirstClass: "boxgrid-row-first",
+        rowLastClass: "boxgrid-row-last",
+        dataColSpanName: "colspan",
+        dataRowSpanName: "rowspan",
+        dataMinHeightName: "minHeight"
+    };
 
     function debounce(func, delay) {
         var timeoutID;
@@ -126,7 +134,7 @@
                 colSpan = columns;
             }
 
-            if (typeof settings.adjustColSpan === 'function') {
+            if (typeof settings.adjustColSpan === "function") {
                 colSpan = settings.adjustColSpan.call(this, colSpan, columns);
             }
 
@@ -137,7 +145,7 @@
                 }
             }
 
-            if (typeof settings.adjustRowSpan === 'function') {
+            if (typeof settings.adjustRowSpan === "function") {
                 rowSpan = settings.adjustRowSpan.call(this, rowSpan, columns);
             }
 
@@ -166,7 +174,7 @@
                     $box.css({
                         top: Math.floor(y * rowHeight),
                         left: offset + Math.floor(x * colWidth),
-                        position: 'absolute'
+                        position: "absolute"
                     });
 
                     break;
@@ -178,42 +186,47 @@
         $container.height(rows * rowHeight).addClass(settings.readyClass);
     }
 
-    $.fn.boxgrid = function (options) {
-        var el = this,
-            settings = $.extend({
-                minColSpan: 1,
-                minColumns: 1,
-                maxColumns: Infinity,
-                minColWidth: 0,
-                rowHeight: 0,
-                resize: true,
-                resizeDelay: 250,
-                readyClass: 'boxgrid-ready',
-                rowFirstClass: 'boxgrid-row-first',
-                rowLastClass: 'boxgrid-row-last',
-                dataColSpanName: 'colspan',
-                dataRowSpanName: 'rowspan',
-                dataMinHeightName: 'minHeight'
-            }, options),
-            align = function () {
-                if (typeof settings.beforeResize === 'function') {
-                    settings.beforeResize.call(el);
-                }
-                el.each(function () {
-                    alignContainer($(this), settings);
-                });
-                if (typeof settings.afterResize === 'function') {
-                    settings.afterResize.call(el);
-                }
-            };
+    function Boxgrid(element, options) {
+        this.element = element;
+        this.settings = $.extend({}, defaults, options);
+        this.init();
+    }
 
-        if (settings.resize) {
-            $(window).resize(debounce(align, settings.resizeDelay));
+    $.extend(Boxgrid.prototype, {
+        init: function () {
+            var el = this;
+
+            if (this.settings.resize) {
+                $(window).resize(debounce(function () {
+                    el.resize();
+                }, this.settings.resizeDelay));
+            }
+
+            $(document).ready(function () {
+                el.resize();
+            });
+        },
+        resize: function () {
+            if (typeof this.settings.beforeResize === "function") {
+                this.settings.beforeResize.call(this);
+            }
+
+            alignContainer($(this.element), this.settings);
+
+            if (typeof this.settings.afterResize === "function") {
+                this.settings.afterResize.call(this);
+            }
         }
+    });
 
-        $(document).ready(align);
+    $.fn.boxgrid = function (options) {
+        this.each(function () {
+            if (!$.data(this, "boxgrid")) {
+                $.data(this, "boxgrid", new Boxgrid(this, options));
+            }
+        });
 
         return this;
     };
 
-}));
+}(window.jQuery));
