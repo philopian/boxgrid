@@ -122,10 +122,11 @@
 
         $container.children().each(function () {
             var $box = $(this),
-                colSpan = $box.data(settings.dataColSpanName),
-                rowSpan = $box.data(settings.dataRowSpanName),
+                colSpan = $box.data(settings.dataColSpanName) || 0,
+                rowSpan = $box.data(settings.dataRowSpanName) || 0,
                 minHeight = $box.data(settings.dataMinHeightName),
                 $minHeightEl,
+                childrenHeight = 0,
                 i = 0,
                 x = 0,
                 y = 0;
@@ -147,6 +148,13 @@
 
             if (typeof settings.adjustRowSpan === "function") {
                 rowSpan = settings.adjustRowSpan.call(this, rowSpan, columns);
+            }
+
+            if (rowSpan === 0) {
+                $box.children().each(function () {
+                    childrenHeight = childrenHeight + $(this).outerHeight();
+                });
+                rowSpan = Math.ceil(childrenHeight / rowHeight);
             }
 
             $box.width(Math.floor(colWidth * colSpan));
