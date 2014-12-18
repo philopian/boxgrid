@@ -42,7 +42,14 @@
         columnLastClass: "boxgrid-column-last",
         dataColSpanName: "colspan",
         dataRowSpanName: "rowspan",
-        dataMinHeightName: "minHeight"
+        dataMinHeightName: "minHeight",
+        adjustTop: 0,
+        adjustRight: 0,
+        adjustBottom: 0,
+        adjustLeft: 0,
+        offsetTop: 0,
+        offsetLeft: 0,
+        offsetGridHeight: 0
     };
 
     function debounce(func, delay) {
@@ -158,8 +165,8 @@
                 rowSpan = Math.ceil(childrenHeight / rowHeight);
             }
 
-            $box.width(Math.floor(colWidth * colSpan));
-            $box.height(Math.floor(rowHeight * rowSpan));
+            $box.width(Math.floor(colWidth * colSpan) - settings.adjustLeft + settings.adjustRight);
+            $box.height(Math.floor(rowHeight * rowSpan) - settings.adjustTop + settings.adjustBottom);
 
             for (i = 0; true; i += 1) {
                 x = i % columns;
@@ -187,8 +194,8 @@
                     }
 
                     $box.css({
-                        top: Math.floor(y * rowHeight),
-                        left: offset + Math.floor(x * colWidth),
+                        top: Math.floor(y * rowHeight + settings.adjustTop + settings.offsetTop),
+                        left: offset + Math.floor(x * colWidth + settings.adjustLeft + settings.offsetLeft),
                         position: "absolute"
                     });
 
@@ -198,7 +205,7 @@
         });
 
         rows = Math.ceil(grid.length / columns);
-        $container.height(rows * rowHeight).addClass(settings.readyClass);
+        $container.height(Math.max(0, rows * rowHeight + settings.offsetTop + settings.offsetGridHeight)).addClass(settings.readyClass);
     }
 
     function Boxgrid(element, options) {
