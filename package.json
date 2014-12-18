@@ -1,6 +1,6 @@
 {
   "name": "boxgrid",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "boxgrid - jQuery Plugin",
   "main": "dist/jquery.boxgrid.min.js",
   "repository": {
