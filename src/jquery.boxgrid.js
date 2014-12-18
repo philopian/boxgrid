@@ -33,6 +33,7 @@
         minColumns: 1,
         maxColumns: Infinity,
         minColWidth: 0,
+        forceMinColWidth: false,
         rowHeight: 0,
         resize: true,
         resizeDelay: 250,
@@ -103,8 +104,12 @@
         return Math.min(columns, maxColumns);
     }
 
-    function getColWidth(minColWidth, width, columns) {
-        return Math.max(minColWidth, Math.floor(width / columns));
+    function getColWidth(containerWidth, columns, minColWidth, forceMinColWidth) {
+        var width = Math.floor(containerWidth / columns);
+        if (forceMinColWidth) {
+            width = Math.max(minColWidth, width);
+        }
+        return width;
     }
 
     function getRowHeight(rowHeight, colWidth) {
@@ -123,7 +128,7 @@
         var grid = [],
             width = $container.width(),
             columns = getColumns(settings.minColumns, settings.minColSpan, settings.minColWidth, settings.maxColumns, width),
-            colWidth = getColWidth(settings.minColWidth, width, columns),
+            colWidth = getColWidth(width, columns, settings.minColWidth, settings.forceMinColWidth),
             rowHeight = getRowHeight(settings.rowHeight, colWidth),
             offset = getOffset(width, columns, colWidth),
             rows = 0;
