@@ -147,6 +147,11 @@
                 colSpan = settings.adjustColSpan.call(this, colSpan, columns);
             }
 
+            $box.css({
+                position: "absolute"
+            });
+            $box.width(Math.floor(colWidth * colSpan) - settings.adjustLeft + settings.adjustRight);
+
             if (minHeight !== undefined) {
                 $minHeightEl = $box.find(minHeight);
                 if ($minHeightEl.length) {
@@ -162,10 +167,16 @@
                 $box.children().each(function () {
                     childrenHeight = childrenHeight + $(this).outerHeight();
                 });
+            } else if (rowSpan !== parseInt(rowSpan, 10)) {
+                $box.find(rowSpan).each(function () {
+                    childrenHeight = childrenHeight + $(this).outerHeight();
+                });
+            }
+
+            if (childrenHeight > 0) {
                 rowSpan = Math.ceil(childrenHeight / rowHeight);
             }
 
-            $box.width(Math.floor(colWidth * colSpan) - settings.adjustLeft + settings.adjustRight);
             $box.height(Math.floor(rowHeight * rowSpan) - settings.adjustTop + settings.adjustBottom);
 
             for (i = 0; true; i += 1) {
@@ -195,8 +206,7 @@
 
                     $box.css({
                         top: Math.floor(y * rowHeight + settings.adjustTop + settings.offsetTop),
-                        left: offset + Math.floor(x * colWidth + settings.adjustLeft + settings.offsetLeft),
-                        position: "absolute"
+                        left: offset + Math.floor(x * colWidth + settings.adjustLeft + settings.offsetLeft)
                     });
 
                     break;
