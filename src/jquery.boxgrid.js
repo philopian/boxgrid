@@ -136,7 +136,9 @@
         $container.children().each(function () {
             var $box = $(this),
                 colSpan = $box.data(settings.dataColSpanName) || 0,
+                originalColSpan = colSpan,
                 rowSpan = $box.data(settings.dataRowSpanName) || 0,
+                originalRowSpan = rowSpan,
                 minHeight = $box.data(settings.dataMinHeightName),
                 $minHeightEl,
                 childrenHeight = 0,
@@ -149,7 +151,7 @@
             }
 
             if (typeof settings.adjustColSpan === "function") {
-                colSpan = settings.adjustColSpan.call(this, colSpan, columns);
+                colSpan = settings.adjustColSpan.call(this, $box, originalColSpan, colSpan, colWidth, columns);
             }
 
             $box.css({
@@ -164,10 +166,6 @@
                 }
             }
 
-            if (typeof settings.adjustRowSpan === "function") {
-                rowSpan = settings.adjustRowSpan.call(this, rowSpan, columns);
-            }
-
             if (rowSpan === 0) {
                 $box.children().each(function () {
                     childrenHeight = childrenHeight + $(this).outerHeight();
@@ -180,6 +178,10 @@
 
             if (childrenHeight > 0) {
                 rowSpan = Math.ceil(childrenHeight / rowHeight);
+            }
+
+            if (typeof settings.adjustRowSpan === "function") {
+                rowSpan = settings.adjustRowSpan.call(this, $box, originalColSpan, colSpan, colWidth, originalRowSpan, rowSpan, rowHeight, columns);
             }
 
             $box.height(Math.floor(rowHeight * rowSpan) - settings.adjustTop + settings.adjustBottom);
