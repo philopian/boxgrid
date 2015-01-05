@@ -124,6 +124,14 @@
         return Math.floor((width - columns * colWidth) / 2);
     }
 
+    function forceRedraw(element) {
+        var offset;
+        element.style.display = "none";
+        offset = element.offsetHeight;
+        element.style.display = "";
+        return offset;
+    }
+
     function alignContainer($container, settings) {
         var grid = [],
             width = $container.width(),
@@ -167,10 +175,12 @@
             }
 
             if (rowSpan === 0) {
+                forceRedraw($box[0]);
                 $box.children().each(function () {
                     childrenHeight = childrenHeight + $(this).outerHeight();
                 });
             } else if (rowSpan !== parseInt(rowSpan, 10)) {
+                forceRedraw($box[0]);
                 $box.find(rowSpan).each(function () {
                     childrenHeight = childrenHeight + $(this).outerHeight();
                 });
